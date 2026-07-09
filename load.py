@@ -4,8 +4,8 @@ from datetime import datetime
 import requests
 import clickhouse_connect
 
-CLICKHOUSE_USER = os.getenv("CLICKHOUSE_USER", "de_user")
-CLICKHOUSE_PASSWORD = os.getenv("CLICKHOUSE_PASSWORD", "de_password")
+CLICKHOUSE_USER = os.getenv("CLICKHOUSE_USER", "default")
+CLICKHOUSE_PASSWORD = os.getenv("CLICKHOUSE_PASSWORD", "")
 
 URL = "https://api.met.no/weatherapi/locationforecast/2.0/compact"
 USER_AGENT = "kuppersberg-task/1.0 github.com/kuppersberg"
@@ -43,7 +43,7 @@ def main():
             ts = datetime.fromisoformat(ts.replace("Z", "+00:00")).replace(tzinfo=None)
             rows.append([city, ts, float(temp)])
 
-    client.insert("weather", rows, column_names=["city", "ts", "temp"])
+    client.insert("weather", rows, column_names=["city", "ts", "temperature"])
     print(f"inserted {len(rows)} rows")
 
 

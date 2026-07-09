@@ -5,10 +5,6 @@ services:
     ports:
       - "8123:8123"
       - "9000:9000"
-    environment:
-      CLICKHOUSE_USER: de_user
-      CLICKHOUSE_PASSWORD: de_password
-      CLICKHOUSE_DB: default
     ulimits:
       nofile:
         soft: 262144
