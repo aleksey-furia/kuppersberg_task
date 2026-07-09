@@ -1,9 +1,13 @@
 import csv
 import io
+import os
 from datetime import datetime
 
 import requests
 import clickhouse_connect
+
+CLICKHOUSE_USER = os.getenv("CLICKHOUSE_USER", "de_user")
+CLICKHOUSE_PASSWORD = os.getenv("CLICKHOUSE_PASSWORD", "de_password")
 
 URL = "https://api.open-meteo.com/v1/forecast"
 CITIES = {
@@ -40,7 +44,12 @@ def parse(text: str):
 
 
 def main():
-    client = clickhouse_connect.get_client(host="localhost", port=8123)
+    client = clickhouse_connect.get_client(
+        host="localhost",
+        port=8123,
+        username=CLICKHOUSE_USER,
+        password=CLICKHOUSE_PASSWORD,
+    )
 
     rows = []
     for city, (lat, lon) in CITIES.items():
